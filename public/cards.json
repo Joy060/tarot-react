@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "太陽", "image": "/img/Wands08.jpg", "description": "代表希望與成功。" },
+  { "id": 11, "name": "太陽神", "image": "/img/Wands08.jpg", "description": "代表人類敵不過天意。" },
+  { "id": 2, "name": "月亮", "image": "/img/Swords14.jpg","description": "象徵潛意識與迷惑。" },
+  { "id": 3, "name": "星星", "image": "/img/Swords14.jpg","description": "代表創造、智慧、療育。" },
+  { "id": 4, "name": "戀人", "image": "/img/Swords14.jpg","description": "象徵坦承、人際、溝通、滋潤。" },
+  { "id": 5, "name": "死神", "image": "/img/Swords14.jpg","description": "象徵考驗、阻礙、冷酷、執著。" }
+]
