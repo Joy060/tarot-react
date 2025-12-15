@@ -1,7 +1,7 @@
 {
   "name": "tarot",
   "version": "0.1.0",
-  "homepage": "https://Joy060.github.io/tarot-react",
+  "homepage": "https://Joy060.github.io/tarot-react/",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
