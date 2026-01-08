@@ -79,6 +79,8 @@ export const TitleEng =styled.h3`
     font-size: ${props => props.theme.titleE};
 `;
 
+const publicUrl = process.env.PUBLIC_URL;
+
 /* 星空圖 + 對齊至中心 */
 export const CCenter =styled.div`
     display: flex;
@@ -93,7 +95,7 @@ export const CCenter =styled.div`
             ${props => props.theme.opacityBlackColor}, 
             ${props => props.theme.opacityBlackColor}
             ),
-        url("/img/brightNight.jpg");
+        url("${publicUrl}/img/brightNight.jpg");
     background-size: cover;
     `;
 
