@@ -2,7 +2,7 @@ import DefaultLayout from "../layout/DefaultLayout";
 import { CCenter } from "../context/styleTheme";
 import { HeroSecBCollection } from "../layout/HeroSecB";
 import styled from "styled-components";
-import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
+// import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 import { useEffect, useState } from "react";
 
 // 樣式
@@ -14,44 +14,44 @@ const SearchDivXL = styled.div`
     padding: 40px 00 100px 0;
 `;
 
-const SearchDiv = styled.div`
+// const SearchDiv = styled.div`
 
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 100px;
-`;
+//     height: 100px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     padding: 0 100px;
+// `;
 
-const SearchInput = styled.input`
-    padding: 8px 12px;
-    height:40px;
-    border-radius:12px ;
-    background-color: rgba(255,255,255,0.1);
-    border: 1px solid white;
-    `;
+// const SearchInput = styled.input`
+//     padding: 8px 12px;
+//     height:40px;
+//     border-radius:12px ;
+//     background-color: rgba(255,255,255,0.1);
+//     border: 1px solid white;
+//     `;
 
-const BTNDiv = styled.div`
-    margin: 12px;
-    width: 24px;
-`;
+// const BTNDiv = styled.div`
+//     margin: 12px;
+//     width: 24px;
+// `;
 
-const ResultDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    border: 1px solid yellow;
-    padding: 40px 100px;
-    line-height: 40px;
-`;
+// const ResultDiv = styled.div`
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: space-around;
+//     border: 1px solid yellow;
+//     padding: 40px 100px;
+//     line-height: 40px;
+// `;
 
-const ResultCard = styled.div`
-    min-width: 136px;
-    height: 200px;
-    margin: 12px 16px;
-    border: 1px solid white;
-    width: 10%;
-`;
+// const ResultCard = styled.div`
+//     min-width: 136px;
+//     height: 200px;
+//     margin: 12px 16px;
+//     border: 1px solid white;
+//     width: 10%;
+// `;
 
         
         

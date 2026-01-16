@@ -10,6 +10,8 @@ import DivLayout from "../../layout/DivLayout";
 
 gsap.registerPlugin(ScrollTrigger);
 
+
+
 const PromoteStyle = styled.div`
     background-color: ${props => props.theme.footerColor};
 `;
@@ -17,6 +19,9 @@ const PromoteStyle = styled.div`
 const Promote = () =>{
 
     const containerRef = useRef(null);
+
+    const publicUrl = process.env.PUBLIC_URL;
+
 
     useEffect(()=>{
         let ctx = gsap.context(() => {
@@ -47,7 +52,7 @@ const Promote = () =>{
     return(
         <PromoteStyle>
             <DivLayout title="本日推薦" ref={containerRef} divClass="opa0">
-                    <CardM className="img" src="/img/Cups07.jpg" />
+                    <CardM className="img" src={`${publicUrl}/img/Cups07.jpg`} />
                     <TitlePara className="title" >寶劍國王</TitlePara>
                     <TitleEng className="eng">Don't judge someone's past, 
                                 when you haven't walked their journey!</TitleEng>
