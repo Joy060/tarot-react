@@ -20,12 +20,12 @@ import styled from "styled-components";
 
 
 import { HeroSecABC } from "../layout/HeroSecA";
-import { ButterflyCenter, CCenter } from "../context/styleTheme";
+import { CCenter } from "../context/styleTheme";
 
 // 插入元件
-import News from "../component/div/News";
+// import News from "../component/div/News";
 import Promote from "../component/div/Promote";
-import Intrance from "../component/div/Intrance";
+// import Intrance from "../component/div/Intrance";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -89,11 +89,11 @@ const Homepage = ()=> {
           <h1>我是GSAP</h1>
       </div> */}
       
-        <News />
+        {/* <News /> */}
         
         <Promote />
 
-        <Intrance />
+        {/* <Intrance /> */}
 
         {/* 展示區
         <div style={{margin:"0 20px", padding: "10%"}}>
@@ -121,9 +121,9 @@ const Homepage = ()=> {
 
         </div> */}
 
-        <ButterflyCenter>
+        {/* <ButterflyCenter>
           <HeroSecABC title="想主宰自己的人生 ?" para="從抽牌到專屬卡片，打造你的專屬塔羅旅程" btn="註冊會員"/>
-        </ButterflyCenter>
+        </ButterflyCenter> */}
         
       </VisitHome>
     </DefaultLayout>
