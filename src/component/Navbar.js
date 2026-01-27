@@ -27,8 +27,8 @@ export const NAVbar = () =>{
     return(
         <NavList>
             <li><Link to='/pickup' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', marginLeft: '12px' }}>塔羅占卜</Link></li>
-            <li><Link to='/about' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', marginLeft: '12px' }}>本站介紹</Link></li>
-            <li><Link to='/learn' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', marginLeft: '12px' }}>學習塔羅</Link></li>
+            {/* <li><Link to='/about' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', marginLeft: '12px' }}>本站介紹</Link></li>
+            <li><Link to='/learn' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', marginLeft: '12px' }}>學習塔羅</Link></li> */}
             <li><Link to='/collection' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', marginLeft: '12px' }}>塔羅圖鑑</Link></li>
             {/* <Attention para="想擁有專屬牌卡?"
                         para2="成為會員即可獲得更多福利" btn="免費體驗"/> */}
@@ -42,8 +42,8 @@ export const NAvbar = () =>{
     return(
         <ul>
             <li><Link to='/pickup' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', color: 'inherit', marginLeft: '12px' }}>塔羅占卜</Link></li>
-            <li><Link to='/about' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', color: 'inherit', marginLeft: '12px' }}>本站介紹</Link></li>
-            <li><Link to='/learn' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', color: 'inherit', marginLeft: '12px' }}>學習塔羅</Link></li>
+            {/* <li><Link to='/about' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', color: 'inherit', marginLeft: '12px' }}>本站介紹</Link></li>
+            <li><Link to='/learn' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', color: 'inherit', marginLeft: '12px' }}>學習塔羅</Link></li> */}
             <li><Link to='/collection' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', color: 'inherit', marginLeft: '12px' }}>塔羅圖鑑</Link></li>
         </ul>
     );
