@@ -118,7 +118,7 @@ export const ButterflyCenter =styled.div`
             ${props => props.theme.opacityBlackColor}, 
             ${props => props.theme.opacityBlackColor}
             ),
-        url("/img/butterfly.jpg");
+        url("${publicUrl}/img/butterfly.jpg");
     background-size: cover;
     `;
 

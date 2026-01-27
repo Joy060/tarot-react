@@ -24,13 +24,16 @@ export const IntranceStyle = styled.div`
 `;
 
 const Intrance = ()=>{
+
+    const publicUrl = process.env.PUBLIC_URL;
+
     return(
         <IntranceStyle>
             <TitlePara>你對今日有何看法?你可以</TitlePara>
             <CardBtnSetStyle>
-                <CardBtn src="/img/Cups07.jpg" title="開始占卜" para="獲得妳的專屬箴言" />
-                <CardBtn src="/img/Swords14.jpg" title="創作專屬卡牌" para="讓卡牌紀錄心路歷程" />
-                <CardBtn src="/img/Wands08.jpg" title="分享圖片" para="將結果存成圖片分享" />
+                <CardBtn src={`${publicUrl}/img/Cups07.jpg`} title="開始占卜" para="獲得妳的專屬箴言" />
+                <CardBtn src={`${publicUrl}/img/Swords14.jpg`} title="創作專屬卡牌" para="讓卡牌紀錄心路歷程" />
+                <CardBtn src={`${publicUrl}/img/Wands08.jpg`} title="分享圖片" para="將結果存成圖片分享" />
             </CardBtnSetStyle>
         </IntranceStyle>
     )

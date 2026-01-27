@@ -13,7 +13,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 const PromoteStyle = styled.div`
-    background-color: ${props => props.theme.footerColor};
+    background-color: ${props => props.theme.mainBGColor};
+    /* border: 1px solid yellow; */
 `;
 
 const Promote = () =>{
