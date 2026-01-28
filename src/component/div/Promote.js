@@ -14,7 +14,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PromoteStyle = styled.div`
     background-color: ${props => props.theme.mainBGColor};
-    /* border: 1px solid yellow; */
 `;
 
 const Promote = () =>{
@@ -55,7 +54,7 @@ const Promote = () =>{
             <DivLayout title="本日推薦" ref={containerRef} divClass="opa0">
                     <CardM className="img" src={`${publicUrl}/img/Cups07.jpg`} />
                     <TitlePara className="title" >寶劍國王</TitlePara>
-                    <TitleEng className="eng">Don't judge someone's past, 
+                    <TitleEng className="eng">Don't judge someone's past,<br/>
                                 when you haven't walked their journey!</TitleEng>
                     <TitlePara className="chi">如果你沒有經歷過別人所經歷的事情，就不要去評判一個人的過去！</TitlePara>
             </DivLayout>

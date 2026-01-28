@@ -8,7 +8,6 @@ const DivStyle = styled.div`
     text-align: center;
     padding: ${props => props.theme.paddingXL} 0;
     line-height: ${props => props.theme.paddingL};
-    /* border: 1px solid red; */
 `;
 
 const BlackDivStyle = styled(DivStyle)`
@@ -29,12 +28,10 @@ export const BlackDivLayout = ({children,title}) =>{
 // 主題區 附樣式、變數之元件
 const DivLayout = forwardRef(({children,title,className,divClass },ref) =>{
     return(
-        <Width80 ref={ref} className={className}>
-            <DivStyle>
+            <DivStyle ref={ref} className={className}>
                 <TitleSmall className={divClass}>{title}</TitleSmall>
                 {children}
             </DivStyle>
-        </Width80>
     );
 });
 
