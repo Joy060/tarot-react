@@ -8,6 +8,7 @@ const Div3 = styled.div`
     line-height: 100px;
     position: fixed;
     /* border: 1px solid blue; */
+    z-index: 5;
     width: 100%;
     box-shadow:${props => props.theme.shadowBlackS};
 
