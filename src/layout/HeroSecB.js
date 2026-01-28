@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { HeroSecAB, HeroSecABCL, HeroSecABL } from "./HeroSecA";
+import { HeroSecAB, HeroSecABC, HeroSecABCL, HeroSecABL } from "./HeroSecA";
+import { CCenter } from "../context/styleTheme";
 import { HeroTag } from "./HeroTag";
 import { FormLogin } from "../component/form/FormLogin";
 import { FormSignup } from "../component/form/FormSignup";
@@ -50,35 +51,11 @@ export const HeroSecBLearn = ()=>{
     )
 };
 
-export const HeroSecBPickup = ()=>{
-    return(
-        <HeroAAStyle>
-            <HeroSecABCL title="塔羅占卜" para="解讀塔羅，發掘自我命運交織秘密" btn="登入獲得專屬卡牌"/>
-            <HeroTag 
-                tags={[
-                    {label: "開始占卜", target: "001"},
-                    {label: "常見QA", target: "002"},
-            ]}/>
-        </HeroAAStyle>
-    )
-};
-
 export const HeroSecBCollection = ()=>{
     return(
-        <HeroAAStyle>
-            <HeroSecABCL title="塔羅圖鑑" para="認識獨一無二的專屬卡牌" btn="查詢卡牌"/>
-            {/* <HeroSecABCL title="塔羅圖鑑" para="製作獨一無二的專屬卡牌" btn="開始創作"/> */}
-            <HeroTag 
-                tags={[
-                    {label: "大阿爾克那0-22", target: "0000"},
-                    {label: "小阿爾克那-寶劍", target: "0000"},
-                    {label: "小阿爾克那-金幣", target: "0000"},
-                    {label: "小阿爾克那-水杯", target: "0000"},
-                    {label: "小阿爾克那-木杖", target: "0000"},
-                    // {label: "我的創作", target: "0001"},
-                    // {label: "素材圖鑑", target: "0002"},
-            ]}/>
-        </HeroAAStyle>
+         <CCenter>
+            <HeroSecABC title="塔羅圖鑑" para="認識獨一無二的專屬卡牌" btn="查詢卡牌"/>
+        </CCenter>
     )
 };
 
@@ -110,16 +87,17 @@ const Width50 = styled.div`
     width: 50%;
 `;
 export const PickUpDiv = () =>{
+    const publicUrl = process.env.PUBLIC_URL;
+
     return(
         <Flex>
             <Width50>
                 <ShinyWord>聽說如果在安靜的環境下占卜<br/>結果會更準確</ShinyWord>
             </Width50>
-            <CardEntranceBtn src="/img/Wands08.jpg" link="/Pick1B" btn="本日占卜" />
-            <CardEntranceBtn src="/img/Wands08.jpg" link="/Pick1A" btn="自由提問" />
+            <CardEntranceBtn src={`${publicUrl}/img/Wands08.jpg`} link="/Pick1B" btn="本日占卜" />
+            <CardEntranceBtn src={`${publicUrl}/img/Wands08.jpg`} link="/Pick1A" btn="自由提問" />
         </Flex>
     );
-
 };
 
 

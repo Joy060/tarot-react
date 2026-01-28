@@ -1,11 +1,14 @@
 import { Routes,Route} from "react-router-dom";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+// 404 page
+// import { createBrowserRouter } from "react-router-dom";
+// import ErrorPage from "./ErrorPage";
+
 // 路由管制
 import PrivateRoute from "../router/PrivateRouter";
 
 // 各分頁導入
 import Homepage from "../pages/home";
-import ErrorPage from "./ErrorPage";
 import Dashboard from '../pages/dashboard';
 import About from "../pages/about";
 import Login from '../pages/login';
@@ -25,27 +28,29 @@ import Pick1B from '../pages/Pick1B';
 import Pick2Type from "../pages/Pick2Type";
 import Pick2Input from "../pages/Pick2Input";
 import PickStart from "../pages/PickStart";
+import ScrollToTop from "./ScrollToTop";
 
 
 // 跳轉錯誤頁
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Homepage />,
-    // 當這個路由或其子路由出錯時，會渲染這個組件
-    errorElement: <ErrorPage />, 
-  },
-]);
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <Homepage />,
+//     // 當這個路由或其子路由出錯時，會渲染這個組件
+//     errorElement: <ErrorPage />, 
+//   },
+// ]);
 
-function App() {
-  return <RouterProvider router={router} />;
-}
+// function App() {
+//   return <RouterProvider router={router} />;
+// }
 
 // 路由管理
 const Router = () => {
 
     return( 
         <div>
+                <ScrollToTop /> {/* 放在這裡，每次路由換頁都會觸發它 */}
                 <Routes>
                     {/* 訪客首頁 */}
                     <Route path="/" element={<Homepage />} />
