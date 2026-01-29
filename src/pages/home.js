@@ -12,7 +12,7 @@ import styled from "styled-components";
 // 插入BTN元件
 // import Button from "../component/button/hoverBtn/Button";
 // import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
-// import BtnTOP from "../component/button/hoverBtn/BtnTOP";
+import BtnTOP from "../component/button/hoverBtn/BtnTOP";
 // import { ShinyWord } from "../component/button/hoverBtn/shinyWord";
 // import { BtnScrollTo } from "../component/button/hoverBtn/BtnScrollTo";
 // import { TagCategoryOn, TagCategoryOff } from "../component/button/TagCategory";
@@ -91,6 +91,7 @@ const Homepage = ()=> {
       
         {/* <News /> */}
         
+        <BtnTOP />
         <Promote />
 
         {/* <Intrance /> */}
@@ -105,7 +106,6 @@ const Homepage = ()=> {
           <p>HoverBTN系列</p>
             <Button>普通按鈕</Button>
             <ButtonCTA>CTA</ButtonCTA>
-            <BtnTOP />
             <ShinyWord>前往註冊</ShinyWord>
             <BtnScrollTo>網站理念</BtnScrollTo>
             <BtnScrollTo>網站對象</BtnScrollTo>

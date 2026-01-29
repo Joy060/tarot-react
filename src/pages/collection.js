@@ -4,6 +4,7 @@ import { HeroSecBCollection } from "../layout/HeroSecB";
 import styled from "styled-components";
 // import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 import { useEffect, useState } from "react";
+import BtnTOP from "../component/button/hoverBtn/BtnTOP";
 
 // 樣式
 const SearchDivXL = styled.div`
@@ -262,6 +263,8 @@ const Collection = () => {
         <CCenter>
                <HeroSecBCollection />
         </CCenter>
+        <BtnTOP />
+
          <SearchDivXL>
 
             <div style={{ display: "flex", height: "100vh" }}>
