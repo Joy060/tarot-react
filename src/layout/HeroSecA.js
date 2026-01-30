@@ -30,6 +30,22 @@ const HeroStyleAA = styled(HeroStyle)`
 export const HeroSecABC = ({title,para,btn,link})=>{
     const containerRef = useRef(null);
 
+    // 處理捲動邏輯
+    const handleNavigation = (e) => {
+        // 檢查 link 是否為錨點 (以 # 開頭)
+        if (link && link.startsWith("#")) {
+        const targetId = link.substring(1); // 取得 id 名稱
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+            e.preventDefault(); // 阻止 react-router 跳轉路徑
+            targetElement.scrollIntoView({ behavior: "smooth" });
+        }
+        }
+        // 如果不是 # 開頭，就不會觸發 e.preventDefault()，Link 會正常執行頁面跳轉
+    };
+
+
     useEffect(()=>{
         const ctx = gsap.context(()=>{
             const tl = gsap.timeline({
@@ -53,7 +69,7 @@ export const HeroSecABC = ({title,para,btn,link})=>{
         <HeroStyle ref={containerRef}>  
             <TitleBig className="titleXL">{title}</TitleBig>
             <TitlePara className="titlePara">{para}</TitlePara>
-            <Link to ={link}>
+            <Link to ={link} onClick={handleNavigation}>
                 <ButtonCTA className="btnCTA">{btn}</ButtonCTA>
             </Link>
         </HeroStyle>

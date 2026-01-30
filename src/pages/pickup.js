@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import DefaultLayout from "../layout/DefaultLayout";
 import { CCenter, MainBGColorStyle } from "../context/styleTheme";
 import { PickUpDiv } from "../layout/HeroSecB";
@@ -12,13 +15,32 @@ const Pickup = () =>{
 
     // const {isLoggedIn} = useAuth();
 
+    const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      // 稍微延遲執行（例如 100ms），確保 GSAP 或其他組件已渲染完成
+      const timer = setTimeout(() => {
+        const id = hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [hash]); // 當 hash 改變時觸發
+
+
+
     return(
         <DefaultLayout>
             <CCenter>
-                <HeroSecABC title="塔羅占卜" para="解讀塔羅，發掘自我命運交織秘密" btn="開始占卜"/>
+                <HeroSecABC title="塔羅占卜" para="解讀塔羅，發掘自我命運交織秘密" btn="開始占卜" link="#pickDiv"/>
             </CCenter>
 
-            <BlackDivLayout>
+            <BlackDivLayout id="pickDiv">
                 <PickUpDiv />
             </BlackDivLayout>
 

@@ -14,9 +14,9 @@ const BlackDivStyle = styled(DivStyle)`
         background-color: ${props => props.theme.footerColor};
     `;
 
-export const BlackDivLayout = ({children,title}) =>{
+export const BlackDivLayout = ({children,title,id}) =>{
     return(
-        <BlackDivStyle>
+        <BlackDivStyle id={id}>
             <Width80>
                 <TitleSmall>{title}</TitleSmall>
                 {children}

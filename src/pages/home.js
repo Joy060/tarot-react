@@ -71,7 +71,7 @@ const Homepage = ()=> {
       <VisitHome>
 
         <CCenter>
-          <HeroSecABC title="塔羅心圖" para="抽牌、創作、收藏，無數命運之語" btn="進入占卜"/>
+          <HeroSecABC title="塔羅心圖" para="抽牌、創作、收藏，無數命運之語" btn="進入占卜" link="/pickup#pickDiv"/>
         </CCenter>
   
       {/* <div data-aos="fade-up"
