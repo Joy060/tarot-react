@@ -8,19 +8,21 @@ import styled from "styled-components";
 
 const LineH = styled.div`
   line-height: 50px;
+  text-align: center;
 `;
 
 const Result = () =>{
 
+    const publicUrl = process.env.PUBLIC_URL;
     const choice = sessionStorage.getItem("choice");
     const text = sessionStorage.getItem("text");
 
     const cards = [
-      {number:"0號",title:"愚人牌",src:"/img/Cups07.jpg",content:"大吉",courage:"你真是神"},
-      {number:"1號",title:"戀人牌",src:"/img/Cups07.jpg",content:"中吉",courage:"還不錯拉"},
-      {number:"2號",title:"月亮牌",src:"/img/Cups07.jpg",content:"小吉",courage:"要不要重測一次?"},
-      {number:"3號",title:"審判牌",src:"/img/Cups07.jpg",content:"平",courage:"加油"},
-      {number:"4號",title:"高塔牌",src:"/img/Cups07.jpg",content:"兇",courage:"你今天出門記得帶傘、小心地上狗屎跟坑洞"},
+      {number:"0號",title:"愚人牌",src:`${publicUrl}/img/Cups07.jpg`,content:"大吉",courage:"你真是神"},
+      {number:"1號",title:"戀人牌",src:`${publicUrl}/img/Cups07.jpg`,content:"中吉",courage:"還不錯拉"},
+      {number:"2號",title:"月亮牌",src:`${publicUrl}/img/Cups07.jpg`,content:"小吉",courage:"要不要重測一次?"},
+      {number:"3號",title:"審判牌",src:`${publicUrl}/img/Cups07.jpg`,content:"平",courage:"加油"},
+      {number:"4號",title:"高塔牌",src:`${publicUrl}/img/Cups07.jpg`,content:"兇",courage:"你今天出門記得帶傘、小心地上狗屎跟坑洞"},
     ];
 
     

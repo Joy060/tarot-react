@@ -17,20 +17,20 @@ const Pickup = () =>{
 
     const { hash } = useLocation();
 
-  useEffect(() => {
+    useEffect(() => {
     if (hash) {
-      // 稍微延遲執行（例如 100ms），確保 GSAP 或其他組件已渲染完成
-      const timer = setTimeout(() => {
+        // 稍微延遲執行（例如 100ms），確保 GSAP 或其他組件已渲染完成
+        const timer = setTimeout(() => {
         const id = hash.replace('#', '');
         const element = document.getElementById(id);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+            element.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 3000);
+        }, 3000);
 
-      return () => clearTimeout(timer);
+        return () => clearTimeout(timer);
     }
-  }, [hash]); // 當 hash 改變時觸發
+    }, [hash]); // 當 hash 改變時觸發
 
 
 
