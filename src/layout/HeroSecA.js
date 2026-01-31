@@ -58,7 +58,7 @@ export const HeroSecABC = ({title,para,btn,link})=>{
 
             tl.from(".titleXL",{opacity:0,y:-300,duration:1.2})
               .from(".titlePara",{y:50,opacity:0,duration:1.2},"+=0.2")
-              .from(".btnCTA",{opacity:0,duration:3})
+              .from(".btnCTA",{opacity:0,duration:1})
         },containerRef);
 
         return () => ctx.revert();

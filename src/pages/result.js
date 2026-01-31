@@ -1,9 +1,9 @@
-import DefaultLayout, { BlankLayout } from "../layout/DefaultLayout";
-import { CardS, CCenter, TitleSmall, Width80 } from "../context/styleTheme";
-import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
- 
+
+import { BlankLayout } from "../layout/DefaultLayout";
+import { CardS, CCenter, TitleSmall, Width80 } from "../context/styleTheme";
+import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 
 
 const LineH = styled.div`
@@ -30,35 +30,30 @@ const Result = () =>{
     let numberW = cards[Ram];
 
     return(
-        <DefaultLayout>
-                <BlankLayout>
-                    <CCenter>
-                      <Width80>
-                        <LineH>
-                          <h1>占卜結果</h1>
-                          {choice?(
-                            <>
-                            <TitleSmall>問題---{text}</TitleSmall>
-                            <TitleSmall>類型---{choice}</TitleSmall>
-                            </>
-                          ):(
-                            <TitleSmall>今日運勢</TitleSmall>
-                          )}
-                          <h4>塔羅牌說</h4>
-                              <CardS src={numberW.src} />
-                              <p>{numberW.number}{numberW.title}-{numberW.content}</p>
-                              <p>{numberW.courage}</p>
-
-                        </LineH>
-            
-                        <Link to ="/pickup">
-                            <ButtonCTA onClick={()=> sessionStorage.clear()}>再測一次</ButtonCTA>
-                        </Link>
-
-                      </Width80>
-                    </CCenter>
-                </BlankLayout>
-        </DefaultLayout>
+      <BlankLayout>
+          <CCenter>
+            <Width80>
+              <LineH>
+                  <h1>占卜結果</h1>
+                  {choice?(
+                    <>
+                    <TitleSmall>問題---{text}</TitleSmall>
+                    <TitleSmall>類型---{choice}</TitleSmall>
+                    </>
+                  ):(
+                    <TitleSmall>今日運勢</TitleSmall>
+                  )}
+                  <h4>塔羅牌說</h4>
+                      <CardS src={numberW.src} />
+                      <p>{numberW.number}{numberW.title}-{numberW.content}</p>
+                      <p>{numberW.courage}</p>
+                  <Link to ="/pickup">
+                      <ButtonCTA onClick={()=> sessionStorage.clear()}>再測一次</ButtonCTA>
+                  </Link>
+              </LineH>
+            </Width80>
+          </CCenter>
+      </BlankLayout>
     )
 }
 

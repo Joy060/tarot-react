@@ -30,7 +30,7 @@ import Promote from "../component/div/Promote";
 gsap.registerPlugin(ScrollTrigger);
 
 const VisitHome = styled.div`
-  padding-top:100px ;
+  /* padding-top:100px ; */
   background-color: ${props => props.theme.mainBGColor};
   color:${props => props.theme.mainTextColor};
 `;
@@ -91,8 +91,8 @@ const Homepage = ()=> {
       
         {/* <News /> */}
         
-        <BtnTOP />
         <Promote />
+        <BtnTOP />
 
         {/* <Intrance /> */}
 

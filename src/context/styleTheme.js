@@ -88,7 +88,7 @@ export const CCenter =styled.div`
     align-items: center;
     position: relative;
     width: 100%;
-    height: 800px;
+    height: 100vh;
 
     background-image: 
         linear-gradient(
