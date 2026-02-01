@@ -17,6 +17,7 @@ gsap.registerPlugin(ScrollTrigger);
 const HeroStyle = styled.div`
     text-align: center;
     width: 100%;
+    margin-top:100px ;
     line-height: ${props => props.theme.paddingL};
     padding: ${props => props.theme.paddingXL} 0;
     `;
@@ -56,8 +57,8 @@ export const HeroSecABC = ({title,para,btn,link})=>{
               },
             });  
 
-            tl.from(".titleXL",{opacity:0,y:-300,duration:1.2})
-              .from(".titlePara",{y:50,opacity:0,duration:1.2},"+=0.2")
+            tl.from(".titleXL",{opacity:0,y:-300,duration:0.8})
+              .from(".titlePara",{y:50,opacity:0,duration:0.8},"+=0.2")
               .from(".btnCTA",{opacity:0,duration:1})
         },containerRef);
 

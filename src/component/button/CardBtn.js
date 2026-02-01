@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
 import { CardM, CardS, TitlePara, TitleSmall } from "../../context/styleTheme";
 import ButtonCTA from "./hoverBtn/BtnCTA";
-import { Link } from "react-router-dom";
 
 // 單一BTN長寬
 const CardBtnStyle = styled.div`
@@ -13,7 +14,7 @@ const CardBtnStyle = styled.div`
     `;
 
 // 單一BTN內容CC置中
-const Center =styled.div`
+export const Center =styled.div`
     display: flex;
     justify-content: center;
     align-items: center;

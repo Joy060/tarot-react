@@ -58,13 +58,15 @@ const Menu = styled.ul`
         position: absolute;
         top: 100px;
         right: -20%;
-        background: ${props => props.theme.footerColor};
         width: 300px;
         height: 100vh;
+        z-index: 99;
+        background: ${props => props.theme.footerColor};
+
         transition: transform 0.3s ease-in-out;
         
         /* 根據 Props 決定是否滑入 */
-        transform: ${({ isOpen }) => (isOpen ? 'translateX(0)' : 'translateX(100%)')};
+        transform: ${({ $isOpen }) => ($isOpen ? 'translateX(0)' : 'translateX(100%)')};
     }
 `;
 
@@ -93,7 +95,7 @@ export const NAVbar = () =>{
                 <span />
             </Hamburger>
 
-            <Menu isOpen={isOpen}>
+            <Menu $isOpen={isOpen}>
                 <li><Link to='/pickup' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', marginLeft: '12px' }}>塔羅占卜</Link></li>
                 {/* <li><Link to='/about' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', marginLeft: '12px' }}>本站介紹</Link></li>
                 <li><Link to='/learn' style={{ cursor: 'pointer', fontSize: '20px', textDecoration: 'none', marginLeft: '12px' }}>學習塔羅</Link></li> */}

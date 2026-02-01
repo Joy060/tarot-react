@@ -9,7 +9,7 @@ const ButtonCTA = styled(Button)`
     width: 160px;
     height: 44px;
     padding: 8px;
-    margin: 12px 0;
+    margin: 12px 24px;
 
     &:hover{
         box-shadow: ${props => props.theme.shadowS}

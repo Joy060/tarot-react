@@ -1,11 +1,12 @@
 import styled from "styled-components";
+
 import { HeroSecAB, HeroSecABC, HeroSecABCL, HeroSecABL } from "./HeroSecA";
-import { CCenter } from "../context/styleTheme";
 import { HeroTag } from "./HeroTag";
+import { CCenter } from "../context/styleTheme";
+
 import { FormLogin } from "../component/form/FormLogin";
 import { FormSignup } from "../component/form/FormSignup";
-import { CardEntranceBtn } from "../component/button/CardBtn";
-import { ShinyWord } from "../component/button/hoverBtn/shinyWord";
+
 
 
 // (左右區塊) HeroSecA + HeroTag區塊
@@ -78,27 +79,7 @@ export const FormSecSignup = ()=>{
     );
 };
 
-const Flex = styled.div`
-        display:flex;
-        align-items: center;
-`;
 
-const Width50 = styled.div`
-    width: 50%;
-`;
-export const PickUpDiv = () =>{
-    const publicUrl = process.env.PUBLIC_URL;
-
-    return(
-        <Flex>
-            <Width50>
-                <ShinyWord>聽說如果在安靜的環境下占卜<br/>結果會更準確</ShinyWord>
-            </Width50>
-            <CardEntranceBtn src={`${publicUrl}/img/Wands08.jpg`} link="/Pick1B" btn="本日占卜" />
-            <CardEntranceBtn src={`${publicUrl}/img/Wands08.jpg`} link="/Pick1A" btn="自由提問" />
-        </Flex>
-    );
-};
 
 
 

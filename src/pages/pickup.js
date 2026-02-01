@@ -3,13 +3,13 @@ import { useLocation } from 'react-router-dom';
 
 import DefaultLayout from "../layout/DefaultLayout";
 import { CCenter, MainBGColorStyle } from "../context/styleTheme";
-import { PickUpDiv } from "../layout/HeroSecB";
 // import { HeroSecABC } from "../layout/HeroSecA";
 // import { useAuth } from "../context/loginContext";
 import QA from "../component/div/QA";
 // import CardCategory from "../component/div/CardCategory";
-import { BlackDivLayout } from "../layout/DivLayout";
+import DivLayout, { BlackDivLayout } from "../layout/DivLayout";
 import { HeroSecABC } from "../layout/HeroSecA";
+import { PickUpDiv } from '../component/div/Attention';
 
 const Pickup = () =>{
 
@@ -37,10 +37,10 @@ const Pickup = () =>{
     return(
         <DefaultLayout>
             <CCenter>
-                <HeroSecABC title="塔羅占卜" para="解讀塔羅，發掘自我命運交織秘密" btn="開始占卜" link="#pickDiv"/>
+                <HeroSecABC title="塔羅占卜" para="解讀塔羅，發掘自我命運交織秘密" btn="前往占卜" link="#pickDiv"/>
             </CCenter>
 
-            <BlackDivLayout id="pickDiv">
+            <BlackDivLayout  id="pickDiv">
                 <PickUpDiv />
             </BlackDivLayout>
 
