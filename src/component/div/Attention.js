@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import { TitlePara } from "../../context/styleTheme";
 
-import { ShinyWord } from "../button/hoverBtn/shinyWord";
 import ButtonCTA from "../button/hoverBtn/BtnCTA";
 
 

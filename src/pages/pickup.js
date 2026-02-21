@@ -7,7 +7,7 @@ import { CCenter, MainBGColorStyle } from "../context/styleTheme";
 // import { useAuth } from "../context/loginContext";
 import QA from "../component/div/QA";
 // import CardCategory from "../component/div/CardCategory";
-import DivLayout, { BlackDivLayout } from "../layout/DivLayout";
+import { BlackDivLayout } from "../layout/DivLayout";
 import { HeroSecABC } from "../layout/HeroSecA";
 import { PickUpDiv } from '../component/div/Attention';
 
