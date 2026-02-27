@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { motion } from 'framer-motion';
 
 import { cardData } from "../../../context/cardContants";
 import ButtonCTA from "../../button/hoverBtn/BtnCTA";
+import Card from "../Card";
 
 
 const ADiv =()=>{
@@ -51,15 +53,38 @@ const ADiv =()=>{
                 <ButtonCTA onClick={initGame}>開始洗牌</ButtonCTA>
                 <ButtonCTA onClick={drawCard} disabled={deck.length === 0}>抽一張牌</ButtonCTA>
 
-                <div style={{ marginTop: '20px' }}>
-                  <h3>已抽出的牌：</h3>
-                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                        {selectedCards.map((card, index) => (
-                          <div key={index} style={{ border: '1px solid #ccc', padding: '10px' }}>
-                              <div>{card.title} </div>
-                              <div>{card.isReversed ? '(逆位)' : '(正位)'}</div>
-                          </div>
+
+                <div style={{ margin: '20px',  height:"100px"}}>
+                  <h3>牌堆(剩餘 {deck.length} 張)</h3>
+                        {deck.map((card, index) => (
+                          <motion.div
+                            key={card.id}
+                            layoutId={card.id}
+                            style={{
+                              position: 'absolute',
+                              x:20,
+                              y:180,
+                              zIndex:99,
+                              left: `calc(50% - 50px + ${index * 0.2}px)`, // 稍微錯位，製造厚度感
+                              top: index * 0.2
+                            }}
+                          >
+                            <Card id={card.id} isSelected={false} onClick={() => drawCard(card)} />
+                          </motion.div>
                         ))}
+                </div>
+
+
+                <div style={{ marginTop: '20px',  height:"100px" }}>
+                  <h3>你抽中的牌</h3>
+                  <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+                    {selectedCards.map((card) => (
+                      <Card 
+                        key={card.title} 
+                        id={card.title} 
+                        isSelected={true} 
+                      />
+                    ))}
                   </div>
                 </div>
           </div>

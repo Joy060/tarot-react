@@ -1,9 +1,10 @@
-import DefaultLayout from "../layout/DefaultLayout";
-import { CCenter } from "../context/styleTheme";
-import { HeroSecBCollection } from "../layout/HeroSecB";
-import styled from "styled-components";
-// import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
+
+import { CCenter } from "../context/styleTheme";
+import DefaultLayout from "../layout/DefaultLayout";
+import { HeroSecBCollection } from "../layout/HeroSecB";
+// import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 import BtnTOP from "../component/button/hoverBtn/BtnTOP";
 
 // 樣式
@@ -211,9 +212,12 @@ const Collection = () => {
   const [results, setResults] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null); // ← 目前選取的卡
 
+
+  const publicUrl = process.env.PUBLIC_URL;
+
   // 載入資料
   useEffect(() => {
-    fetch("/cards.json")
+    fetch(`${publicUrl}/cards.json`)
       .then((res) => res.json())
       .then((data) => setAllCards(data));
   }, []);
