@@ -220,7 +220,7 @@ const Collection = () => {
     fetch(`${publicUrl}/cards.json`)
       .then((res) => res.json())
       .then((data) => setAllCards(data));
-  }, []);
+  }, [publicUrl]);
 
   // 搜尋
   useEffect(() => {
