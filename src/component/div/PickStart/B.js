@@ -1,12 +1,12 @@
 
 // 切牌
-const B = ()=>{
+const BDiv = ()=>{
 
     return(
       <div>
-        B        
+        按一下以切牌        
       </div>
     );
 }
 
-export default B;
+export default BDiv;

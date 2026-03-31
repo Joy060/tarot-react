@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { CCenter, Width80 } from "../context/styleTheme";
+import { CardL, CardM, CCenter, Width80 } from "../context/styleTheme";
 
 import { BlankLayout } from "../layout/DefaultLayout";
 
 import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
-import  ADiv  from "../component/div/PickStart/A";
+import ADiv  from "../component/div/PickStart/A";
+// import BDiv from "../component/div/PickStart/B";
+// import CDiv from "../component/div/PickStart/C";
 
 // 容器樣式
 const RightAStyle = styled.div`
@@ -15,7 +17,7 @@ const RightAStyle = styled.div`
   justify-content: center;
   align-content: center;
 
-  border: 1px solid red;
+  /* border: 1px solid white; */
 `;
 
 
@@ -27,13 +29,20 @@ const PickStart = ()=>{
     const [step, setStep] = useState("A");
 
     // 定義流程順序
-    const steps = ["A","B","C","D"];
+    const steps = ["A","D"];
 
-    // 找到目前索引
-    const currentIndex = steps.indexOf(step);
-
+    // 紀錄抽牌結果
+    const [finalCards, setFinalCards] = useState([]);
+    
     // 下一步函式
-    const goNext = () =>{
+    const goNext = (resultCards) =>{
+      // 如果執行 goNext 時有傳入牌陣，就存起來
+      if (resultCards) {
+        setFinalCards(resultCards);
+      }
+
+      // 找到目前索引
+      const currentIndex = steps.indexOf(step);
       if(currentIndex < steps.length -1){
         setStep(steps[currentIndex +1]);
       }
@@ -44,35 +53,47 @@ const PickStart = ()=>{
     // ------------------------------------四大區塊定義------
     const A = ({ goNext })=>{
         return(
-          <RightAStyle id="A" >
-            <ADiv />
+          <RightAStyle id="A">
+            <ADiv goNext={goNext} />
           </RightAStyle>
         );
     }
-    const B = ({ goNext })=>{
+    // const B = ({ goNext })=>{
+    //     return(
+    //       <RightAStyle id="B" onClick={goNext}>
+    //         <BDiv />      
+    //       </RightAStyle>
+    //     );
+    // }
+    // const C = ({ goNext })=>{
+    //     return(
+    //       <RightAStyle id="C" onClick={goNext}>
+    //         <CDiv />       
+    //       </RightAStyle>
+    //     );
+    // }
+    const D = ({data})=>{
+        const publicUrl = process.env.PUBLIC_URL;
+
         return(
-          <RightAStyle id="B" onClick={goNext}>
-            B 切牌       
-          </RightAStyle>
-        );
-    }
-    const C = ({ goNext })=>{
-        return(
-          <RightAStyle id="C" onClick={goNext}>
-            C 抽牌       
-          </RightAStyle>
-        );
-    }
-    const D = ()=>{
-        return(
-          <RightAStyle id="D">
-            D 展牌    
+          <div id="D">
+            <div>
+              <h3>你抽到的牌是：</h3>
+              <RightAStyle>
+                {data.map((card, i) => (
+                  <div>
+                    <CardM className="img" src={`${publicUrl}/img/Cups07.jpg`} />
+                    <p key={i}>{card.title}</p>
+                  </div>
+                ))}
+              </RightAStyle>
+            </div>
 
             <Link to ="/pickup/result">
                 <ButtonCTA>看結果</ButtonCTA>
             </Link>
+          </div>
  
-          </RightAStyle>
         );
     }
 
@@ -81,11 +102,11 @@ const PickStart = ()=>{
       <BlankLayout>
         <CCenter>
           <Width80>
-              <A goNext={goNext}/>
-              {/* {step === "A" &&( <A goNext={goNext}/>)}
-              {step === "B" &&( <B goNext={goNext}/>)}
-              {step === "C" &&( <C goNext={goNext}/>)}
-              {step === "D" &&( <D goNext={goNext}/>)} */}
+              {/* <A goNext={goNext}/> */}
+              {step === "A" &&( <A goNext={goNext}/>)}
+              {/* {step === "B" &&( <B goNext={goNext}/>)}
+              {step === "C" &&( <C goNext={goNext}/>)} */}
+              {step === "D" &&( <D data={finalCards}/>)}
           </Width80>
         </CCenter>
       </BlankLayout>

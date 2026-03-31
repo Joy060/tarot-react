@@ -1,12 +1,12 @@
 
 // 抽牌
-const C = ()=>{
+const CDiv = ()=>{
 
     return(
       <div>
-        C        
+        洗牌好了喔        
       </div>
     );
 }
 
-export default C;
+export default CDiv;

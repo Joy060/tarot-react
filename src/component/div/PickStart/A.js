@@ -6,7 +6,7 @@ import ButtonCTA from "../../button/hoverBtn/BtnCTA";
 import Card from "../Card";
 
 
-const ADiv =()=>{
+const ADiv =({goNext})=>{
         // state1:剩下的牌堆
         const [deck, setDeck] = useState([]);
         // state2:抽出的牌
@@ -31,19 +31,28 @@ const ADiv =()=>{
         }
 
         // 抽牌函數
-        const drawCard = () => {
+        const drawCard = (clickedCard) => {
 
             //防呆機制:「如果牌堆已經空了（沒牌了），就直接結束這段程式，什麼都不要做。
             if (deck.length === 0) {
                 alert("牌已經抽完囉！請重新洗牌。"); // 加上提示
                 return;
             }            
+            // 1. 處理抽牌邏輯
+            const card = clickedCard || deck[0]; 
+            const newDeck = deck.filter(c => c.id !== card.id);
+            const newSelected = [...selectedCards, card];
 
-            const card = deck[0]; // 取出第一張
-            const newDeck = deck.slice(1); // 移除第一張
-            
             setDeck(newDeck); //更新有逆位的牌堆
-            setSelectedCards([...selectedCards, card]); //更新已抽出的牌堆
+            setSelectedCards(newSelected);
+
+            //2. 判斷是否達成跳轉條件（假設抽滿 3 張）
+            if (newSelected.length === 3) {
+              // 延遲 3 秒後跳轉，並把抽到的牌 [newSelected] 帶回去給父層
+              setTimeout(() => {
+                  goNext(newSelected); 
+              }, 3000);
+            }
         };
 
         // 輸出結果
