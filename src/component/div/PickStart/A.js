@@ -31,7 +31,7 @@ const ADiv =({goNext})=>{
         }
 
         // 抽牌函數
-        const drawCard = (clickedCard) => {
+        const drawCard = () => {
 
             //防呆機制:「如果牌堆已經空了（沒牌了），就直接結束這段程式，什麼都不要做。
             if (deck.length === 0) {
@@ -39,16 +39,17 @@ const ADiv =({goNext})=>{
                 return;
             }            
             // 1. 處理抽牌邏輯
-            const card = clickedCard || deck[0]; 
+            const card = deck[0]; 
             const newDeck = deck.filter(c => c.id !== card.id);
             const newSelected = [...selectedCards, card];
 
             setDeck(newDeck); //更新有逆位的牌堆
             setSelectedCards(newSelected);
 
-            //2. 判斷是否達成跳轉條件（假設抽滿 3 張）
-            if (newSelected.length === 3) {
+            // 2. 判斷是否達成跳轉條件（假設抽滿 3 張）
+            if (newSelected.length === 2) {
               // 延遲 3 秒後跳轉，並把抽到的牌 [newSelected] 帶回去給父層
+              alert("下一步");
               setTimeout(() => {
                   goNext(newSelected); 
               }, 3000);
@@ -59,38 +60,24 @@ const ADiv =({goNext})=>{
         return (
           <div style={{ padding: '20px', textAlign: 'center'}}>
                 <h2>塔羅抽卡測試</h2>
-                <ButtonCTA onClick={initGame}>開始洗牌</ButtonCTA>
-                <ButtonCTA onClick={drawCard} disabled={deck.length === 0}>抽一張牌</ButtonCTA>
-
-
-                <div style={{ margin: '20px',  height:"100px"}}>
+                <div style={{ margin: '20px',  height:"50px"}}>
                   <h3>牌堆(剩餘 {deck.length} 張)</h3>
-                        {deck.map((card, index) => (
-                          <motion.div
-                            key={card.id}
-                            layoutId={card.id}
-                            style={{
-                              position: 'absolute',
-                              x:20,
-                              y:180,
-                              zIndex:99,
-                              left: `calc(50% - 50px + ${index * 0.2}px)`, // 稍微錯位，製造厚度感
-                              top: index * 0.2
-                            }}
-                          >
-                            <Card id={card.id} isSelected={false} onClick={() => drawCard(card)} />
-                          </motion.div>
-                        ))}
                 </div>
+                
+                <ButtonCTA onClick={initGame}>洗牌</ButtonCTA>
+                <ButtonCTA onClick={drawCard}>抽牌</ButtonCTA>
+
+
 
 
                 <div style={{ marginTop: '20px',  height:"100px" }}>
                   <h3>你抽中的牌</h3>
                   <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-                    {selectedCards.map((card) => (
+                    {selectedCards.map((card,i) => (
                       <Card 
-                        key={card.title} 
-                        id={card.title} 
+                        key={i} 
+                        id={card.id} 
+                        title={card.title}
                         isSelected={true} 
                       />
                     ))}

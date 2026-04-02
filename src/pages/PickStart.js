@@ -2,14 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { CardL, CardM, CCenter, Width80 } from "../context/styleTheme";
+import { CardM, CCenter, Width80 } from "../context/styleTheme";
 
 import { BlankLayout } from "../layout/DefaultLayout";
 
 import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 import ADiv  from "../component/div/PickStart/A";
-// import BDiv from "../component/div/PickStart/B";
-// import CDiv from "../component/div/PickStart/C";
 
 // 容器樣式
 const RightAStyle = styled.div`
@@ -81,9 +79,13 @@ const PickStart = ()=>{
               <h3>你抽到的牌是：</h3>
               <RightAStyle>
                 {data.map((card, i) => (
-                  <div>
-                    <CardM className="img" src={`${publicUrl}/img/Cups07.jpg`} />
-                    <p key={i}>{card.title}</p>
+                  <div key={card.id || i}>
+                    <CardM 
+                      className="img" 
+                      src={`${publicUrl}${card.img}`}
+                      alt={card.title} 
+                    />
+                    <p>{card.title}</p>
                   </div>
                 ))}
               </RightAStyle>
