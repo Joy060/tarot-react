@@ -1,114 +1,75 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-
-import { CardM, CCenter, Width80 } from "../context/styleTheme";
-
-import { BlankLayout } from "../layout/DefaultLayout";
+import { useNavigate } from "react-router-dom";
+import cardData from "../context/cards.json"
 
 import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
-import ADiv  from "../component/div/PickStart/A";
-
-// 容器樣式
-const RightAStyle = styled.div`
-  display: flex;
-  justify-content: center;
-  align-content: center;
-
-  /* border: 1px solid white; */
-`;
+import { CCenter, Width80 } from "../context/styleTheme";
+import { BlankLayout } from "../layout/DefaultLayout";
 
 
 // 元件匯出
 const PickStart = ()=>{
 
-    // ------------------------------------紀錄流程變數------
-    // 紀錄目前狀態在哪一步驟
-    const [step, setStep] = useState("A");
 
-    // 定義流程順序
-    const steps = ["A","D"];
+    // 用來儲存當前抽到的卡牌數據，預設為空值
+      const [drawnCard, setDrawnCard] = useState(null);
+      const navigate = useNavigate();// 2. 初始化 navigate 函式
 
-    // 紀錄抽牌結果
-    const [finalCards, setFinalCards] = useState([]);
-    
-    // 下一步函式
-    const goNext = (resultCards) =>{
-      // 如果執行 goNext 時有傳入牌陣，就存起來
-      if (resultCards) {
-        setFinalCards(resultCards);
-      }
 
-      // 找到目前索引
-      const currentIndex = steps.indexOf(step);
-      if(currentIndex < steps.length -1){
-        setStep(steps[currentIndex +1]);
-      }
-    };
-    
- 
+          // ... 步驟 3 的邏輯
+          // 抽牌動作drawCard
+          const drawCard = () => {
+            // 1. 防呆：確保 JSON 裡面有資料
+            if (cardData.length === 0) return;
 
-    // ------------------------------------四大區塊定義------
-    const A = ({ goNext })=>{
-        return(
-          <RightAStyle id="A">
-            <ADiv goNext={goNext} />
-          </RightAStyle>
-        );
-    }
-    // const B = ({ goNext })=>{
-    //     return(
-    //       <RightAStyle id="B" onClick={goNext}>
-    //         <BDiv />      
-    //       </RightAStyle>
-    //     );
-    // }
-    // const C = ({ goNext })=>{
-    //     return(
-    //       <RightAStyle id="C" onClick={goNext}>
-    //         <CDiv />       
-    //       </RightAStyle>
-    //     );
-    // }
-    const D = ({data})=>{
-        const publicUrl = process.env.PUBLIC_URL;
+            // 2. 隨機產生一個介於 0 到 陣列長度-1 之間的整數
+            const randomIndex = Math.floor(Math.random() * cardData.length);
+            
+            // 3. 取得隨機卡牌
+            const randomCard = cardData[randomIndex];
+            
+            // 4. 更新狀態
+            setDrawnCard(randomCard);
 
-        return(
-          <div id="D">
-            <div>
-              <h3>你抽到的牌是：</h3>
-              <RightAStyle>
-                {data.map((card, i) => (
-                  <div key={card.id || i}>
-                    <CardM 
-                      className="img" 
-                      src={`${publicUrl}${card.img}`}
-                      alt={card.title} 
-                    />
-                    <p>{card.title}</p>
-                  </div>
-                ))}
-              </RightAStyle>
-            </div>
-
-            <Link to ="/pickup/result">
-                <ButtonCTA>看結果</ButtonCTA>
-            </Link>
-          </div>
- 
-        );
-    }
+            navigate('/Result',{ state:{ card: randomCard } });
+          };
 
 
     return(
       <BlankLayout>
         <CCenter>
           <Width80>
-              {/* <A goNext={goNext}/> */}
-              {step === "A" &&( <A goNext={goNext}/>)}
-              {/* {step === "B" &&( <B goNext={goNext}/>)}
-              {step === "C" &&( <C goNext={goNext}/>)} */}
-              {step === "D" &&( <D data={finalCards}/>)}
+ 
+                  <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
+                    <h2>線上抽牌系統</h2>
+                    
+                    {/* 抽牌按鈕 */}
+                    <ButtonCTA 
+                      onClick={drawCard} 
+                      style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}
+                    >
+                      {drawnCard ? '看結果' : '開始抽牌'}
+                    </ButtonCTA>
+{/* 
+                    <hr style={{ margin: '30px auto', width: '50%' }} />
+
+                    結果顯示區域：只有當 drawnCard 不是 null 時才會顯示
+                    {drawnCard ? (
+                      <div style={{ 
+                        border: '1px solid #ccc', 
+                        padding: '20px', 
+                        borderRadius: '8px', 
+                        display: 'inline-block',
+                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                      }}>
+                        <h3>🃏 你抽到了：{drawnCard.id}</h3>
+                        <p>{drawnCard.title}</p>
+                      </div>
+                    ) : (
+                      <p style={{ color: '#888' }}>請點擊上方按鈕抽取你的卡牌</p>
+                    )} */}
+                  </div>
+
           </Width80>
         </CCenter>
       </BlankLayout>

@@ -28,6 +28,7 @@ import Pick1B from '../pages/Pick1B';
 import Pick2Type from "../pages/Pick2Type";
 import Pick2Input from "../pages/Pick2Input";
 import PickStart from "../pages/PickStart";
+import Result from "../pages/result";
 import ScrollToTop from "./ScrollToTop";
 
 
@@ -66,7 +67,7 @@ const Router = () => {
                     <Route path="/Pick2Type" element={<Pick2Type />} />
                     <Route path="/Pick2Input" element={<Pick2Input />} />
                     <Route path="/PickStart" element={<PickStart />} />
-                    <Route path="/pickup/result" element={<PickupResult />} />
+                    <Route path="/Result" element={<PickupResult />} />
 
                     {/* 關於本站 */}
                     <Route path="/about" element={<About />} />

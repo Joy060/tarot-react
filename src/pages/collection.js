@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { CCenter } from "../context/styleTheme";
+import { CardS, CCenter } from "../context/styleTheme";
 import DefaultLayout from "../layout/DefaultLayout";
 import { HeroSecBCollection } from "../layout/HeroSecB";
-// import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
+import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 import BtnTOP from "../component/button/hoverBtn/BtnTOP";
 
 // 樣式
@@ -206,137 +206,276 @@ const SearchDivXL = styled.div`
 //   );
 // }
 
-const Collection = () => {
-  const [allCards, setAllCards] = useState([]);
-  const [keyword, setKeyword] = useState("");
-  const [results, setResults] = useState([]);
-  const [selectedCard, setSelectedCard] = useState(null); // ← 目前選取的卡
+// const Collection = () => {
+//   const [allCards, setAllCards] = useState([]);
+//   const [keyword, setKeyword] = useState("");
+//   const [results, setResults] = useState([]);
+//   const [selectedCard, setSelectedCard] = useState(null); // ← 目前選取的卡
 
+
+//   const publicUrl = process.env.PUBLIC_URL;
+
+//   // 載入資料
+//   useEffect(() => {
+//     fetch(`${publicUrl}/cards.json`)
+//       .then((res) => res.json())
+//       .then((data) => setAllCards(data));
+//   }, [publicUrl]);
+
+//   // 搜尋
+//   useEffect(() => {
+//     if (!keyword) {
+//       setResults(allCards);
+//       return;
+//     }
+
+//     const k = keyword.toLowerCase();
+//     const filtered = allCards.filter(
+//       (item) =>
+//         item.title.toLowerCase().includes(k) ||
+//         item.isntReserve.toLowerCase().includes(k)
+//     );
+
+//     setResults(filtered);
+//   }, [keyword, allCards]);
+
+//   // highlight
+//   const highlightMatch = (text, keyword) => {
+//     if (!keyword) return text;
+//     const regex = new RegExp(`(${keyword})`, "gi");
+
+//     return (
+//       <span
+//         dangerouslySetInnerHTML={{
+//           __html: text.replace(
+//             regex,
+//             `<span style="
+//               background: rgba(162, 85, 220, 0.86);
+//               color: white;
+//               padding: 2px 4px;
+//               border-radius: 4px;
+//             ">${"$1"}</span>`
+//           ),
+//         }}
+//       />
+//     );
+//   };
+
+//   return (
+
+//     <DefaultLayout>
+//         <CCenter>
+//                <HeroSecBCollection />
+//         </CCenter>
+//         <BtnTOP />
+
+//          <SearchDivXL>
+
+//             <div style={{ display: "flex", height: "100vh" }}>
+//               {/* 左側區域 */}
+//               <div style={{ width: "350px", padding: "20px", borderRight: "1px solid #ddd" }}>
+//                 <h2>塔羅搜尋</h2>
+
+//                 <input
+//                   type="text"
+//                   value={keyword}
+//                   onChange={(e) => setKeyword(e.target.value)}
+//                   placeholder="輸入關鍵字..."
+//                   style={{ width: "100%", padding: "10px", marginBottom: "20px",backgroundColor:"rgba(74, 68, 78, 0.86)" }}
+//                 />
+
+//                 <ul style={{ listStyle: "none", padding: 0 }}>
+//                   {results.map((item) => (
+//                     <li
+//                       key={item.title}
+//                       onClick={() => setSelectedCard(item)} // ← 點擊後展開右側 panel
+//                       style={{
+//                         padding: "10px",
+//                         borderBottom: "1px solid #eee",
+//                         cursor: "pointer",
+//                       }}
+//                     >
+//                       <strong>{highlightMatch(item.major.title, keyword)}</strong>
+//                       <br />
+//                       <small>{highlightMatch(item.major.id, keyword)}</small>
+//                     </li>
+//                   ))}
+//                 </ul>
+//               </div>
+
+//               {/* 右側滑出的 Side Panel */}
+//               <div
+//                 style={{
+//                   width: selectedCard ? "350px" : "0px",
+//                   transition: "0.3s",
+//                   overflow: "hidden",
+//                   background: "#8e60ea46",
+//                   padding: selectedCard ? "20px" : "0px",
+//                   boxShadow: selectedCard ? "-4px 0 8px rgba(0,0,0,0.1)" : "none",
+//                 }}
+//               >
+//                 {selectedCard && (
+//                   <>
+//                     <button
+//                       onClick={() => setSelectedCard(null)}
+//                       style={{
+//                         float: "right",
+//                         border: "none",
+//                         background: "transparent",
+//                         fontSize: "20px",
+//                         cursor: "pointer",
+//                       }}
+//                     >
+//                       ✕
+//                     </button>
+
+//                     <h3>{selectedCard.major.title}</h3>
+//                     <p>{selectedCard.major.id}</p>
+//                     <img src={selectedCard.major.image} alt="" />
+//                   </>
+//                 )}
+//               </div>
+//             </div>
+//          </SearchDivXL>
+//     </DefaultLayout>
+//   );
+// };
+
+const Collection = () => {
+  const [allCards, setAllCards] = useState({ major: [], minor: {} }); // 初始化結構
+  const [keyword, setKeyword] = useState("");
+  const [results, setResults] = useState([]); // 這裡存過濾後的「大牌」陣列
+  const [selectedCard, setSelectedCard] = useState(null);
 
   const publicUrl = process.env.PUBLIC_URL;
 
-  // 載入資料
+  // 1. 載入資料
   useEffect(() => {
     fetch(`${publicUrl}/cards.json`)
       .then((res) => res.json())
-      .then((data) => setAllCards(data));
+      .then((data) => {
+        setAllCards(data);
+        setResults(data.major); // 預設顯示全部大牌
+      });
   }, [publicUrl]);
 
-  // 搜尋
+  // 2. 搜尋邏輯 (針對大牌)
   useEffect(() => {
-    if (!keyword) {
-      setResults(allCards);
+    if (!allCards.major) return;
+
+    if (!keyword.trim()) {
+      setResults(allCards.major);
       return;
     }
 
     const k = keyword.toLowerCase();
-    const filtered = allCards.filter(
-      (item) =>
-        item.name.toLowerCase().includes(k) ||
-        item.description.toLowerCase().includes(k)
+    const filtered = allCards.major.filter((item) =>
+      item.title.toLowerCase().includes(k) ||
+      item.id.toLowerCase().includes(k) ||
+      // item.isntReserve.some(tag => tag.toLowerCase().includes(k)) // tags 是陣列，要用 some
+      (item.isntReserve && item.isntReserve.some(tag => tag.toLowerCase().includes(k)))
     );
 
     setResults(filtered);
   }, [keyword, allCards]);
 
-  // highlight
+  // ... highlightMatch 函數保持不變 ...
   const highlightMatch = (text, keyword) => {
+    if (!text) return ""; // 防錯：確保 text 存在
     if (!keyword) return text;
+    
     const regex = new RegExp(`(${keyword})`, "gi");
-
     return (
       <span
         dangerouslySetInnerHTML={{
-          __html: text.replace(
+          __html: text.toString().replace(
             regex,
-            `<span style="
-              background: rgba(162, 85, 220, 0.86);
-              color: white;
-              padding: 2px 4px;
-              border-radius: 4px;
-            ">${"$1"}</span>`
+            `<span style="background: rgba(162, 85, 220, 0.86); color: white; padding: 2px 4px; border-radius: 4px;">$1</span>`
           ),
         }}
       />
     );
   };
-
   return (
-
     <DefaultLayout>
-        <CCenter>
-               <HeroSecBCollection />
-        </CCenter>
-        <BtnTOP />
+      <CCenter><HeroSecBCollection /></CCenter>
+      <BtnTOP />
 
-         <SearchDivXL>
+      <SearchDivXL>
+        <div style={{ display: "flex", height: "80vh" }}>
+          {/* 左側區域 */}
+          <div style={{ width: "350px", padding: "20px", borderRight: "1px solid #ddd", overflowY: "auto" }}>
+            <h2>塔羅搜尋</h2>
 
-            <div style={{ display: "flex", height: "100vh" }}>
-              {/* 左側區域 */}
-              <div style={{ width: "350px", padding: "20px", borderRight: "1px solid #ddd" }}>
-                <h2>塔羅搜尋</h2>
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="搜尋名稱或關鍵字..."
+              style={{ width: "100%", padding: "10px", marginBottom: "20px", backgroundColor: "rgba(74, 68, 78, 0.86)", color: "white" }}
+            />
 
-                <input
-                  type="text"
-                  value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
-                  placeholder="輸入關鍵字..."
-                  style={{ width: "100%", padding: "10px", marginBottom: "20px",backgroundColor:"rgba(74, 68, 78, 0.86)" }}
-                />
+            <ul style={{ listStyle: "none", padding: 0,color:"white" }}>
+              {results.map((item) => (
+                <li
+                  key={item.id} // 使用唯一的 id 作為 key
+                  onClick={() => setSelectedCard(item)}
+                  style={{
+                    padding: "10px",
+                    borderBottom: "1px solid #eee",
+                    cursor: "pointer",
+                    backgroundColor: selectedCard?.id === item.id ? "#f0f0f06e" : "transparent"
+                  }}
+                >
+                  {/* 注意這裡：直接用 item.title */}
+                 <strong>{highlightMatch(item.title, keyword)}</strong>
+                <br />
+                <small>{highlightMatch(item.id, keyword)}</small>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-                <ul style={{ listStyle: "none", padding: 0 }}>
-                  {results.map((item) => (
-                    <li
-                      key={item.id}
-                      onClick={() => setSelectedCard(item)} // ← 點擊後展開右側 panel
-                      style={{
-                        padding: "10px",
-                        borderBottom: "1px solid #eee",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <strong>{highlightMatch(item.name, keyword)}</strong>
-                      <br />
-                      <small>{highlightMatch(item.description, keyword)}</small>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          {/* 右側滑出的 Side Panel */}
+          <div
+            style={{
+              width: selectedCard ? "450px" : "0px", // 稍微加寬一點放圖
+              transition: "0.3s",
+              overflowY: "auto",
+              background: "#555", // 內容區建議背景亮一點，或是依據你的設計調整
+              padding: selectedCard ? "20px" : "0px",
+              boxShadow: selectedCard ? "-4px 0 8px rgba(0,0,0,0.1)" : "none",
+              color: "#333"
+            }}
+          >
+            {selectedCard && (
+              <>
+                <button
+                  onClick={() => setSelectedCard(null)}
+                  style={{ float: "right", border: "none", background: "transparent", fontSize: "24px", cursor: "pointer" }}
+                >✕</button>
 
-              {/* 右側滑出的 Side Panel */}
-              <div
-                style={{
-                  width: selectedCard ? "350px" : "0px",
-                  transition: "0.3s",
-                  overflow: "hidden",
-                  background: "#8e60ea46",
-                  padding: selectedCard ? "20px" : "0px",
-                  boxShadow: selectedCard ? "-4px 0 8px rgba(0,0,0,0.1)" : "none",
-                }}
-              >
-                {selectedCard && (
-                  <>
-                    <button
-                      onClick={() => setSelectedCard(null)}
-                      style={{
-                        float: "right",
-                        border: "none",
-                        background: "transparent",
-                        fontSize: "20px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      ✕
-                    </button>
+                {/* 詳細資料顯示 */}
+                <h3>{selectedCard.title}</h3>
+                <p>ID: {selectedCard.id}</p>
+                
+                {/* 圖片路徑確認：你的 JSON 中 key 是 "img" */}
+                <CardS
+                  src={`${publicUrl}${selectedCard.img}`}
+                  alt={selectedCard.title} 
+                  style={{ width: "20%", borderRadius: "8px", marginBottom: "15px" }} 
+                /> 
 
-                    <h3>{selectedCard.name}</h3>
-                    <p>{selectedCard.description}</p>
-                    <img src={selectedCard.image} alt="" />
-                  </>
-                )}
-              </div>
-            </div>
-         </SearchDivXL>
+                <h4>正位關鍵字：</h4>
+                <p>{selectedCard.isntReserve.join("、")}</p>
+                
+                <h4>逆位關鍵字：</h4>
+                <p>{selectedCard.Reserve.join("、")}</p>
+              </>
+            )}
+          </div>
+        </div>
+      </SearchDivXL>
     </DefaultLayout>
   );
 };

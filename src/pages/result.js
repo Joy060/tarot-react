@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 
 import { BlankLayout } from "../layout/DefaultLayout";
@@ -11,45 +13,73 @@ const LineH = styled.div`
   text-align: center;
 `;
 
-const Result = () =>{
+const Result = () => {
 
     const publicUrl = process.env.PUBLIC_URL;
-    const choice = sessionStorage.getItem("choice");
-    const text = sessionStorage.getItem("text");
+    const location = useLocation();// 2. 取得當前路由的資訊
+    const navigate = useNavigate();
+    // const choice = sessionStorage.getItem("choice");
+    // const text = sessionStorage.getItem("text");
 
-    const cards = [
-      {number:"0號",title:"愚人牌",src:`${publicUrl}/img/Cups07.jpg`,content:"大吉",courage:"你真是神"},
-      {number:"1號",title:"戀人牌",src:`${publicUrl}/img/Cups07.jpg`,content:"中吉",courage:"還不錯拉"},
-      {number:"2號",title:"月亮牌",src:`${publicUrl}/img/Cups07.jpg`,content:"小吉",courage:"要不要重測一次?"},
-      {number:"3號",title:"審判牌",src:`${publicUrl}/img/Cups07.jpg`,content:"平",courage:"加油"},
-      {number:"4號",title:"高塔牌",src:`${publicUrl}/img/Cups07.jpg`,content:"兇",courage:"你今天出門記得帶傘、小心地上狗屎跟坑洞"},
-    ];
+    console.log("當前路由所有的 location 資訊:", location);
+    console.log("接收到的卡牌資料:", location.state?.card);
 
-    
-    let Ram = Math.floor(Math.random()*cards.length);
-    let numberW = cards[Ram];
+    const card = location.state?.card;
+
+    // 4. 防呆機制：如果使用者不是抽牌過來的（直接打網址），提示他回去抽牌
+    if (!card) {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <p>⚠️ 找不到抽牌紀錄，請先進行抽牌。</p>
+        <button onClick={() => navigate('/PickStart')}>回首頁</button>
+      </div>
+    );
+    }
+
 
     return(
       <BlankLayout>
           <CCenter>
             <Width80>
               <LineH>
-                  <h1>占卜結果</h1>
-                  {choice?(
-                    <>
-                    <TitleSmall>問題---{text}</TitleSmall>
-                    <TitleSmall>類型---{choice}</TitleSmall>
-                    </>
-                  ):(
-                    <TitleSmall>今日運勢</TitleSmall>
-                  )}
-                  <h4>塔羅牌說</h4>
-                      <CardS src={numberW.src} />
-                      <p>{numberW.number}{numberW.title}-{numberW.content}</p>
-                      <p>{numberW.courage}</p>
-                  <Link to ="/pickup">
-                      <ButtonCTA onClick={()=> sessionStorage.clear()}>再測一次</ButtonCTA>
-                  </Link>
+                      <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
+                            <h2>抽牌結果</h2>
+                            
+                            <div style={{ 
+                              border: '0.25px solid #f8ff28', 
+                              padding: '30px', 
+                              borderRadius: '12px', 
+                              display: 'inline-block',
+                              backgroundColor: 'rgba(19, 13, 44, 0.74)',
+                              boxShadow: '0 8px 16px rgba(3, 3, 3, 0.31)'
+                            }}>
+                              <h1 style={{ color: '#6200ee' }}>{card.title}</h1>
+                              <CardS src={`${publicUrl}${card.img}`} />
+                              <hr/>
+                                {card.isntReserve.map((item, index) => (
+                                  <span 
+                                    key={index} 
+                                    style={{
+                                      border: '1px solid #f2ff05',
+                                      padding: '4px 12px',
+                                      margin:'4px',
+                                      borderRadius: '16px',
+                                      fontSize: '14px',
+                                      fontWeight: '500'
+                                    }}
+                                  >
+                                    {item}
+                                  </span>
+                                ))}
+                            </div>
+
+                            <div style={{ marginTop: '30px' }}>
+                              {/* 讓使用者可以按按鈕回到抽牌頁面 */}
+                              <ButtonCTA onClick={() => navigate('/PickStart')} >
+                                重新抽牌
+                              </ButtonCTA>
+                            </div>
+                      </div>
               </LineH>
             </Width80>
           </CCenter>
