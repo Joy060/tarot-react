@@ -15,7 +15,6 @@ import Login from '../pages/login';
 import Signup from '../pages/signup';
 
 import Pickup from '../pages/pickup';
-import PickupResult from '../pages/result';
 
 import Learn from '../pages/learn';
 
@@ -67,7 +66,7 @@ const Router = () => {
                     <Route path="/Pick2Type" element={<Pick2Type />} />
                     <Route path="/Pick2Input" element={<Pick2Input />} />
                     <Route path="/PickStart" element={<PickStart />} />
-                    <Route path="/Result" element={<PickupResult />} />
+                    <Route path="/Result" element={<Result />} />
 
                     {/* 關於本站 */}
                     <Route path="/about" element={<About />} />

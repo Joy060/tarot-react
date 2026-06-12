@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
 import { BlankLayout } from "../layout/DefaultLayout";
-import { CardS, CCenter, TitleSmall, Width80 } from "../context/styleTheme";
+import { CardS, CCenter, Width80 } from "../context/styleTheme";
 import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 
 
@@ -77,6 +76,9 @@ const Result = () => {
                               {/* 讓使用者可以按按鈕回到抽牌頁面 */}
                               <ButtonCTA onClick={() => navigate('/PickStart')} >
                                 重新抽牌
+                              </ButtonCTA>
+                              <ButtonCTA onClick={() => navigate('/')} >
+                                回到首頁
                               </ButtonCTA>
                             </div>
                       </div>

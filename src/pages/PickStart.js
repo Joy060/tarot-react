@@ -1,11 +1,32 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import cardData from "../context/cards.json"
 
 import ButtonCTA from "../component/button/hoverBtn/BtnCTA";
 import { CCenter, Width80 } from "../context/styleTheme";
 import { BlankLayout } from "../layout/DefaultLayout";
+import styled from "styled-components";
 
+const CardBack = styled.img`
+    width: 100px;
+    height: 150px;
+    margin: 40px;
+    border-radius:10px ;
+    border: 2px solid ${props => props.theme.shinyShadow};
+    background-color:${props => props.theme.mainBGColor};
+;
+
+   
+`;
+
+const PickStartDiv = styled.div`
+width: 100%;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+`;
 
 // 元件匯出
 const PickStart = ()=>{
@@ -40,15 +61,15 @@ const PickStart = ()=>{
         <CCenter>
           <Width80>
  
-                  <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
+                  <PickStartDiv style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
                     <h2>線上抽牌系統</h2>
-                    
+                    <CardBack />
                     {/* 抽牌按鈕 */}
                     <ButtonCTA 
                       onClick={drawCard} 
                       style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}
                     >
-                      {drawnCard ? '看結果' : '開始抽牌'}
+                      {drawnCard ? '看結果' : '洗牌並抽牌'}
                     </ButtonCTA>
 {/* 
                     <hr style={{ margin: '30px auto', width: '50%' }} />
@@ -68,7 +89,7 @@ const PickStart = ()=>{
                     ) : (
                       <p style={{ color: '#888' }}>請點擊上方按鈕抽取你的卡牌</p>
                     )} */}
-                  </div>
+                  </PickStartDiv>
 
           </Width80>
         </CCenter>
