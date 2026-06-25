@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
-import { HeroSecAB, HeroSecABC, HeroSecABCL, HeroSecABL } from "./HeroSecA";
+import { HeroSecAB, HeroSecABCL, HeroSecABL } from "./HeroSecA";
 import { HeroTag } from "./HeroTag";
-import { CCenter } from "../context/styleTheme";
 
 import { FormLogin } from "../component/form/FormLogin";
 import { FormSignup } from "../component/form/FormSignup";
@@ -49,14 +48,6 @@ export const HeroSecBLearn = ()=>{
                     {label: "塔羅辭典", target: "03"},
             ]}/>
         </HeroAAStyle>
-    )
-};
-
-export const HeroSecBCollection = ()=>{
-    return(
-         <CCenter>
-            <HeroSecABC title="塔羅圖鑑" para="認識獨一無二的專屬卡牌" btn="查詢卡牌"/>
-        </CCenter>
     )
 };
 
