@@ -1,4 +1,4 @@
-import { useRef,useEffect } from "react";
+import { useRef,useEffect, useState } from "react";
 import styled from "styled-components";
 
 import "aos/dist/aos.css";
@@ -25,13 +25,7 @@ const HeroStyle = styled.div`
     padding: ${props => props.theme.paddingXL} 0;
     `;
 
-const SearchDiv = styled.input`
-    background-color: ${props => props.theme.opacityBlackColor};
-    border:1px solid black;
-    width: 80%;
-    padding: 12px;
-    height: 30px;
-`;
+
 
 const AllCardsDiv = styled.div`
     background-color: black;
@@ -53,10 +47,12 @@ const CardContainer = styled.div`
   max-width: 1200px; 
   margin: 0 auto;
   margin-bottom: 40px ;
+  margin-top: 20px ;
   gap: 12px;
   padding: 20px;
   width: 60%;
   box-sizing: border-box;
+  /* border: 1px solid yellow; */
 
   /* 📱 響應式：當螢幕小於 768px（手機板）時，自動變回一排一張，避免擠壓 */
   @media (max-width: 768px) {
@@ -141,115 +137,202 @@ const HeroSec = ({title,para})=>{
         <HeroStyle ref={containerRef}>  
             <TitleBig className="titleXL">{title}</TitleBig>
             <TitlePara className="titlePara">{para}</TitlePara>
-            <SearchDiv placeholder="請輸入關鍵字"></SearchDiv>
         </HeroStyle>
     )
 };
+
+// --- 搜尋結果的Styled Components ---
+const SearchContainer = styled.div`
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  /* border:1px solid yellow; */
+  width: 80%;
+  `;
+
+const SearchInput = styled.input`
+  width: 100%;
+  background-color: ${props => props.theme.opacityBlackColor};
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: ${props => props.theme.pointColor};
+  }
+`;
+
+const SearchResult = styled.div`
+  margin: 40px;
+`;
 
 
 // page最後輸出 
   const Collection = () => {
     const publicUrl = process.env.PUBLIC_URL;
 
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredCards = (cardData || []).filter((card) => {
+            if (!card) return false;
+
+            const searchLower = searchTerm.trim().toLowerCase();
+            if (!searchLower) return true; // 沒輸入時顯示所有卡牌
+
+            // 1. 檢查卡牌名稱
+            const matchTitle = card.title && typeof card.title === 'string'
+              ? card.title.toLowerCase().includes(searchLower)
+              : false;
+
+            // 2. 檢查正位關鍵字 (isntReserve)
+            const matchIsntReserve = card.isntReserve && Array.isArray(card.isntReserve)
+              ? card.isntReserve.some((keyword) => 
+                  keyword && typeof keyword === 'string' && keyword.toLowerCase().includes(searchLower)
+                )
+              : false;
+
+            // 3. 檢查逆位關鍵字 (Reserve)
+            const matchReserve = card.Reserve && Array.isArray(card.Reserve)
+              ? card.Reserve.some((keyword) => 
+                  keyword && typeof keyword === 'string' && keyword.toLowerCase().includes(searchLower)
+                )
+              : false;
+
+            // 三者只要有一個符合，這張卡牌就會被留下來
+            return matchTitle || matchIsntReserve || matchReserve;
+            });
+
+
+
     return (
       <DefaultLayout>
-      <CCenter>
-         <HeroSec title="塔羅圖鑑" para="認識獨一無二的專屬卡牌" />
-      </CCenter>
-      <BtnTOP />
+        <CCenter>
+          <HeroSec title="塔羅圖鑑" para="認識獨一無二的專屬卡牌" />
+        </CCenter>
+        <BtnTOP />
 
-      <AllCardsDiv>
+
+        <AllCardsDiv>
+          {/* 1. 只保留搜尋輸入框，把原本用來重複渲染卡牌的 CardGrid 拿掉 */}
+          
           <div>
-              <h3>大阿爾克那</h3>
-                  <CardContainer className="card-list">
-                          {cardData
-                            .filter(card => card.id && card.id.includes('big'))
-                            .map(card => (
-                              <CardItem key={card.id}>
-                                      <CardImgWrapper>
-                                        <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
+          <SearchContainer>
+                <SearchInput
+                  type="text"
+                  placeholder="搜尋卡牌名稱或關鍵字... (例如: 直覺、冒險)"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+          </SearchContainer>
 
-                                      </CardImgWrapper>
+          {searchTerm.trim() && (
+              <SearchResult style={{ marginTop: '10px', color: '#666', fontSize: '14px', textAlign: 'center' }}>
+                {filteredCards.length > 0 ? (
+                  <>
+                    搜尋「<strong>{searchTerm}</strong>」，有 <strong>{filteredCards.length}</strong> 張牌慢慢出現了
+                  </>
+                ) : (
+                  <>
+                    霧氣散去... 找不到符合關鍵字「<strong>{searchTerm}</strong>」的卡牌
+                  </>
+                )}
+              </SearchResult>
+)}
 
-                                      <CardInfo>
-                                        <h4>{card.title}</h4>
-                                      </CardInfo>
-                                    </CardItem>
-                            ))}
-                        </CardContainer>
-              <h3>小阿爾克那</h3>
-              <h5>權杖系列</h5>
-                    <CardContainer className="card-list">
-                          {cardData
-                            .filter(card => card.id && card.id.includes('wa'))
-                            .map(card => (
-                              <CardItem key={card.id}>
-                                      <CardImgWrapper>
-                                        <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
 
-                                      </CardImgWrapper>
+            {/* --- 大阿爾克那 --- */}
+            <h3>大阿爾克那</h3>
+            <CardContainer className="card-list">
+              {filteredCards
+                .filter(card => card.id && card.id.includes('big'))
+                .map(card => (
+                  <CardItem key={card.id}>
+                    <CardImgWrapper>
+                      <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
+                    </CardImgWrapper>
+                    <CardInfo>
+                      <h4>{card.title}</h4>
+                    </CardInfo>
+                  </CardItem>
+                ))}
+            </CardContainer>
 
-                                      <CardInfo>
-                                        <h4>{card.title}</h4>
-                                      </CardInfo>
-                                    </CardItem>
-                            ))}
-                        </CardContainer>
-              <h5>寶劍系列</h5>
-                    <CardContainer className="card-list">
-                          {cardData
-                            .filter(card => card.id && card.id.includes('sw'))
-                            .map(card => (
-                              <CardItem key={card.id}>
-                                      <CardImgWrapper>
-                                        <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
+            <h3>小阿爾克那</h3>
+            
+            {/* --- 權杖系列 --- */}
+            <h5>權杖系列</h5>
+            <CardContainer className="card-list">
+              {filteredCards
+                .filter(card => card.id && card.id.includes('wa'))
+                .map(card => (
+                  <CardItem key={card.id}>
+                    <CardImgWrapper>
+                      <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
+                    </CardImgWrapper>
+                    <CardInfo>
+                      <h4>{card.title}</h4>
+                    </CardInfo>
+                  </CardItem>
+                ))}
+            </CardContainer>
 
-                                      </CardImgWrapper>
+            {/* --- 寶劍系列 --- */}
+            <h5>寶劍系列</h5>
+            <CardContainer className="card-list">
+              {filteredCards
+                .filter(card => card.id && card.id.includes('sw'))
+                .map(card => (
+                  <CardItem key={card.id}>
+                    <CardImgWrapper>
+                      <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
+                    </CardImgWrapper>
+                    <CardInfo>
+                      <h4>{card.title}</h4>
+                    </CardInfo>
+                  </CardItem>
+                ))}
+            </CardContainer>
 
-                                      <CardInfo>
-                                        <h4>{card.title}</h4>
-                                      </CardInfo>
-                                    </CardItem>
-                            ))}
-                        </CardContainer>
-              <h5>聖杯系列</h5>
-                    <CardContainer className="card-list">
-                          {cardData
-                            .filter(card => card.id && card.id.includes('cu'))
-                            .map(card => (
-                              <CardItem key={card.id}>
-                                      <CardImgWrapper>
-                                        <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
+            {/* --- 聖杯系列 --- */}
+            <h5>聖杯系列</h5>
+            <CardContainer className="card-list">
+              {filteredCards
+                .filter(card => card.id && card.id.includes('cu'))
+                .map(card => (
+                  <CardItem key={card.id}>
+                    <CardImgWrapper>
+                      <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
+                    </CardImgWrapper>
+                    <CardInfo>
+                      <h4>{card.title}</h4>
+                    </CardInfo>
+                  </CardItem>
+                ))}
+            </CardContainer>
 
-                                      </CardImgWrapper>
-
-                                      <CardInfo>
-                                        <h4>{card.title}</h4>
-                                      </CardInfo>
-                                    </CardItem>
-                            ))}
-                        </CardContainer>
-              <h5>金幣系列</h5>
-                    <CardContainer className="card-list">
-                          {cardData
-                            .filter(card => card.id && card.id.includes('pe'))
-                            .map(card => (
-                              <CardItem key={card.id}>
-                                      <CardImgWrapper>
-                                        <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
-
-                                      </CardImgWrapper>
-
-                                      <CardInfo>
-                                        <h4>{card.title}</h4>
-                                      </CardInfo>
-                                    </CardItem>
-                            ))}
-                        </CardContainer>
+            {/* --- 金幣系列 --- */}
+            <h5>金幣系列</h5>
+            <CardContainer className="card-list">
+              {filteredCards
+                .filter(card => card.id && card.id.includes('pe'))
+                .map(card => (
+                  <CardItem key={card.id}>
+                    <CardImgWrapper>
+                      <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
+                    </CardImgWrapper>
+                    <CardInfo>
+                      <h4>{card.title}</h4>
+                    </CardInfo>
+                  </CardItem>
+                ))}
+            </CardContainer>
 
           </div>
-      </AllCardsDiv>
-    </DefaultLayout>
+        </AllCardsDiv>
+</DefaultLayout>
   );
 };
 

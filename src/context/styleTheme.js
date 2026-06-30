@@ -31,6 +31,7 @@ const theme = {
     opacityBlackColor: "rgba(0, 0, 0, 0.4)",
     opacityWhiteColor: "rgba(255, 255, 255, 0.2)",
     shinyColor: "#EA9FED",
+    pointColor: "rgb(247, 255, 95)",
 
     // 文字大小
     titleL: "64px",
