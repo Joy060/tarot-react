@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import cardData from "../context/cards.json"
 
@@ -33,8 +33,13 @@ const PickStart = ()=>{
 
 
     // 用來儲存當前抽到的卡牌數據，預設為空值
-      const [drawnCard, setDrawnCard] = useState(null);
+      const location = useLocation();
       const navigate = useNavigate();// 2. 初始化 navigate 函式
+    
+      // 1. 先接住前面累積的資料
+      const { quizType, question } = location.state || {};
+      
+      const [drawnCard, setDrawnCard] = useState(null);
 
 
           // ... 步驟 3 的邏輯
@@ -52,7 +57,13 @@ const PickStart = ()=>{
             // 4. 更新狀態
             setDrawnCard(randomCard);
 
-            navigate('/Result',{ state:{ card: randomCard } });
+            navigate('/Result', { 
+            state: { 
+                quizType: quizType, 
+                question: question, 
+                card: randomCard 
+            } 
+        });
           };
 
 

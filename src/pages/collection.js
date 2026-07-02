@@ -81,6 +81,28 @@ const CardItem = styled.div`
   }
 `;
 
+
+// const CCardItem = styled.div`
+//   border: 1px solid #ddd;
+//   border-radius: 8px;
+//   padding: 10px;
+//   cursor: pointer;
+//   background: #fff;
+//   transition: transform 0.2s;
+
+//   &:hover {
+//     transform: translateY(-5px);
+//     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+//   }
+
+//   img {
+//     width: 100%;
+//     border-radius: 4px;
+//   }
+// `;
+
+
+
 // 3. 圖片外殼：鎖定塔羅牌的黃金長方比例
 const CardImgWrapper = styled.div`
   width: 100%;
@@ -170,12 +192,126 @@ const SearchResult = styled.div`
 `;
 
 
+
+// --- 單張牌彈跳視窗Styled-components
+const AppContainer = styled.div`
+  padding: 20px;
+  text-align: center;
+  font-family: sans-serif;
+`;
+
+const CardGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 20px auto;
+`;
+
+
+
+/* 彈窗背後的遮罩 (Overlay) */
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* 半透明黑背景 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+/* 彈窗視窗主體 (Content) */
+const ModalContent = styled.div`
+  background: ${props => props.theme.footerColor};
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: ${props => props.theme.shadowS};
+  position: relative;
+  max-width: 500px;
+  width: 90%;
+  animation: fadeIn 0.3s ease-out;
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+
+  &:hover {
+    color: #000;
+  }
+`;
+
+const ModalBody = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+
+  img {
+    width: 150px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+`;
+
+const ModalInfo = styled.div`
+  flex: 1;
+  h2 {
+    margin-top: 0;
+    color: ${props => props.theme.pointColor};
+  }
+  h5 {
+    margin-top: 0;
+    color: ${props => props.theme.mainTextColor};
+    margin: 12px 0;
+  }
+  p {
+    color: ${props => props.theme.btnTextColor};
+    line-height: 1.6;
+  }
+`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // page最後輸出 
   const Collection = () => {
     const publicUrl = process.env.PUBLIC_URL;
 
     const [searchTerm, setSearchTerm] = useState('');
 
+    // 搜尋篩選區
     const filteredCards = (cardData || []).filter((card) => {
             if (!card) return false;
 
@@ -205,7 +341,16 @@ const SearchResult = styled.div`
             return matchTitle || matchIsntReserve || matchReserve;
             });
 
+    // 紀錄目前被點擊的卡牌資料，null 表示沒有彈窗
+      const [selectedCard, setSelectedCard] = useState(null);
 
+      const openModal = (card) => {
+        setSelectedCard(card);
+      };
+
+      const closeModal = () => {
+          setSelectedCard(null);
+        };
 
     return (
       <DefaultLayout>
@@ -214,6 +359,25 @@ const SearchResult = styled.div`
         </CCenter>
         <BtnTOP />
 
+        {/* 彈窗元件：當 selectedCard 有值時才渲染 */}
+        {selectedCard && (
+          <ModalOverlay onClick={closeModal}>
+            {/* stopPropagation 防止點擊彈窗內部時也觸發關閉 */}
+            <ModalContent onClick={(e) => e.stopPropagation()}>
+              <CloseButton onClick={closeModal}>&times;</CloseButton>
+              <ModalBody>
+                <img src={`${publicUrl}${selectedCard.img}`} alt={selectedCard.title} />
+                <ModalInfo>
+                  <h2>{selectedCard.title}</h2>
+                  <h5>正位</h5>
+                  <p>{selectedCard.isntReserve.join('、')}</p>
+                  <h5>逆位</h5>
+                  <p>{selectedCard.Reserve.join('、')}</p>
+                </ModalInfo>
+              </ModalBody>
+            </ModalContent>
+          </ModalOverlay>
+        )}
 
         <AllCardsDiv>
           {/* 1. 只保留搜尋輸入框，把原本用來重複渲染卡牌的 CardGrid 拿掉 */}
@@ -222,7 +386,7 @@ const SearchResult = styled.div`
           <SearchContainer>
                 <SearchInput
                   type="text"
-                  placeholder="搜尋卡牌名稱或關鍵字... (例如: 直覺、冒險)"
+                  placeholder="搜尋卡牌關鍵字or直接點擊該牌查看內容"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -249,7 +413,7 @@ const SearchResult = styled.div`
               {filteredCards
                 .filter(card => card.id && card.id.includes('big'))
                 .map(card => (
-                  <CardItem key={card.id}>
+                  <CardItem key={card.id} onClick={() => openModal(card)} style={{ cursor: 'pointer' }}>
                     <CardImgWrapper>
                       <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
                     </CardImgWrapper>
@@ -268,7 +432,7 @@ const SearchResult = styled.div`
               {filteredCards
                 .filter(card => card.id && card.id.includes('wa'))
                 .map(card => (
-                  <CardItem key={card.id}>
+                  <CardItem key={card.id} onClick={() => openModal(card)} style={{ cursor: 'pointer' }}>
                     <CardImgWrapper>
                       <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
                     </CardImgWrapper>
@@ -285,7 +449,7 @@ const SearchResult = styled.div`
               {filteredCards
                 .filter(card => card.id && card.id.includes('sw'))
                 .map(card => (
-                  <CardItem key={card.id}>
+                  <CardItem key={card.id} onClick={() => openModal(card)} style={{ cursor: 'pointer' }}>
                     <CardImgWrapper>
                       <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
                     </CardImgWrapper>
@@ -302,7 +466,7 @@ const SearchResult = styled.div`
               {filteredCards
                 .filter(card => card.id && card.id.includes('cu'))
                 .map(card => (
-                  <CardItem key={card.id}>
+                  <CardItem key={card.id} onClick={() => openModal(card)} style={{ cursor: 'pointer' }}>
                     <CardImgWrapper>
                       <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
                     </CardImgWrapper>
@@ -319,7 +483,7 @@ const SearchResult = styled.div`
               {filteredCards
                 .filter(card => card.id && card.id.includes('pe'))
                 .map(card => (
-                  <CardItem key={card.id}>
+                  <CardItem key={card.id} onClick={() => openModal(card)} style={{ cursor: 'pointer' }}>
                     <CardImgWrapper>
                       <CardS src={`${publicUrl}${card.img}`} alt={card.title} />
                     </CardImgWrapper>

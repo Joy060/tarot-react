@@ -11,11 +11,34 @@ const LineH = styled.div`
   line-height: 50px;
   text-align: center;
 `;
+const publicUrl = process.env.PUBLIC_URL;
+
+const Container =styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 200vh;
+
+    background-image: 
+        linear-gradient(
+            ${props => props.theme.opacityBlackColor}, 
+            ${props => props.theme.opacityBlackColor}
+            ),
+        url("${publicUrl}/img/brightNight.jpg");
+    background-size: cover;
+    `;
+
 
 const Result = () => {
 
     const publicUrl = process.env.PUBLIC_URL;
     const location = useLocation();// 2. 取得當前路由的資訊
+    
+    // 一口氣拿到所有占卜資料
+    const { quizType, question } = location.state || {};
+
     const navigate = useNavigate();
     // const choice = sessionStorage.getItem("choice");
     // const text = sessionStorage.getItem("text");
@@ -38,14 +61,15 @@ const Result = () => {
 
     return(
       <BlankLayout>
-          <CCenter>
+          <Container>
             <Width80>
               <LineH>
                       <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'sans-serif' }}>
                             <h2>抽牌結果</h2>
-                            
+                            <p>占卜題型：{quizType}</p>
+                            <p>你的問題：{question}</p>
                             <div style={{ 
-                              border: '0.25px solid #f8ff28', 
+                              border: '0.25px solid #d8ff286d', 
                               padding: '30px', 
                               borderRadius: '12px', 
                               display: 'inline-block',
@@ -84,7 +108,7 @@ const Result = () => {
                       </div>
               </LineH>
             </Width80>
-          </CCenter>
+          </Container>
       </BlankLayout>
     )
 }

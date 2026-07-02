@@ -100,6 +100,24 @@ export const CCenter =styled.div`
     background-size: cover;
     `;
 
+export const heightFreeContainer =styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 200vh;
+
+    background-image: 
+        linear-gradient(
+            ${props => props.theme.opacityBlackColor}, 
+            ${props => props.theme.opacityBlackColor}
+            ),
+        url("${publicUrl}/img/brightNight.jpg");
+    background-size: cover;
+    `;
+
+
 export const CenterDiv =styled.div`
     display: flex;
     justify-content: center;

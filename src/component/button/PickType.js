@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { TitlePara, TitleSmall } from "../../context/styleTheme";
 import Button from "./hoverBtn/Button";
@@ -90,81 +90,157 @@ const PickTypeBtnSecType = styled.div`
     display: flex;
     `;
 
-// A內容渲染設定
-const PickTypeBtnSec = ()=>{
+// // A內容渲染設定
+// const PickTypeBtnSec = ()=>{
 
-    const [activeType, setActiveType] =useState(TypeData[0].id);
+//     const [activeType, setActiveType] =useState(TypeData[0].id);
 
-    const activeData =TypeData.find((type)=>type.id===activeType)
+//     const activeData =TypeData.find((type)=>type.id===activeType)
 
+//     const navigate = useNavigate();
+
+//     const handleChoice = () =>{
+//         sessionStorage.setItem("choice",activeType);
+//         navigate("/Pick2Input");
+//     };
+
+//     return(
+//         <div>
+//             <PickTypeBtnSecType>
+//                 {TypeData.map((type)=>
+//                     activeType === type.id?(
+//                     <CardBackgroundFocus key={type.id}>
+//                         <PickTypeBtn title={type.id} a={type.number} onClick= {()=>setActiveType(type.id)}/>
+//                     </CardBackgroundFocus>
+//                     ):(
+//                     <CardBackground key={type.id}>
+//                         <PickTypeBtn title={type.id} a={type.number} onClick= {()=>setActiveType(type.id)}/>
+//                     </CardBackground>
+//                     )
+//                 )}
+//                 <p>已選擇：{activeType}</p>
+//             </PickTypeBtnSecType>
+
+//             <p>點擊查看類型提示</p>
+//             <hr/>
+
+//             <div>
+//                 {activeData.des.map((line,i)=>(
+//                     <p key={i}>{line}</p>
+//                 ))}
+//             </div>
+//             <Button onClick={handleChoice}>下一步</Button>
+//         </div>
+
+//     );
+
+// }
+
+// // B內容渲染設定
+// const PickInputSec = ()=>{
+
+//     const [text, setText] = useState("");
+//     const navigate = useNavigate();
+
+
+//     const goNext = () =>{
+//         sessionStorage.setItem("text",text);
+//         navigate("/PickStart");
+//     };
+
+//     return(
+//         <div>
+//             <TitleSmall>請寫下你的問題，最後只用一個問號結尾。</TitleSmall>
+//             <div>
+//                 <input type="text" id="inp"
+//                 value={text}
+//                 onChange={(e) => setText(e.target.value)}
+//                 className="input"  
+//                 placeholder="請輸入問題" 
+//                 required
+//                 autoFocus />
+//             </div>
+//                 <Button onClick={goNext}>開始抽牌</Button>
+//         </div>
+//     );
+// }
+
+// A內容渲染設定 (選題型)
+const PickTypeBtnSec = () => {
+    const [activeType, setActiveType] = useState(TypeData[0].id);
+    const activeData = TypeData.find((type) => type.id === activeType);
     const navigate = useNavigate();
 
-    const handleChoice = () =>{
-        sessionStorage.setItem("choice",activeType);
-        navigate("/Pick2Input");
+    const handleChoice = () => {
+        // 【修改點】不用 sessionStorage，直接用 state 傳給下一頁
+        navigate("/Pick2Input", { state: { quizType: activeType } });
     };
 
-    return(
+    return (
         <div>
             <PickTypeBtnSecType>
-                {TypeData.map((type)=>
-                    activeType === type.id?(
-                    <CardBackgroundFocus key={type.id}>
-                        <PickTypeBtn title={type.id} a={type.number} onClick= {()=>setActiveType(type.id)}/>
-                    </CardBackgroundFocus>
-                    ):(
-                    <CardBackground key={type.id}>
-                        <PickTypeBtn title={type.id} a={type.number} onClick= {()=>setActiveType(type.id)}/>
-                    </CardBackground>
+                {TypeData.map((type) =>
+                    activeType === type.id ? (
+                        <CardBackgroundFocus key={type.id}>
+                            <PickTypeBtn title={type.id} a={type.number} onClick={() => setActiveType(type.id)} />
+                        </CardBackgroundFocus>
+                    ) : (
+                        <CardBackground key={type.id}>
+                            <PickTypeBtn title={type.id} a={type.number} onClick={() => setActiveType(type.id)} />
+                        </CardBackground>
                     )
                 )}
                 <p>已選擇：{activeType}</p>
             </PickTypeBtnSecType>
 
             <p>點擊查看類型提示</p>
-            <hr/>
+            <hr />
 
             <div>
-                {activeData.des.map((line,i)=>(
+                {activeData.des.map((line, i) => (
                     <p key={i}>{line}</p>
                 ))}
             </div>
             <Button onClick={handleChoice}>下一步</Button>
         </div>
-
     );
+};
 
-}
-
-// B內容渲染設定
-const PickInputSec = ()=>{
-
+// B內容渲染設定 (輸入問題)
+const PickInputSec = () => {
     const [text, setText] = useState("");
     const navigate = useNavigate();
+    const location = useLocation(); // 【修改點】宣告 location
 
+    // 【修改點】取出上一頁傳來的題型
+    const { quizType } = location.state || {};
 
-    const goNext = () =>{
-        sessionStorage.setItem("text",text);
-        navigate("/PickStart");
+    const goNext = () => {
+        // 【修改點】把前面累積的 quizType 和這一頁的 text 一起帶到抽牌頁
+        navigate("/PickStart", { 
+            state: { 
+                quizType: quizType, 
+                question: text 
+            } 
+        });
     };
 
-    return(
+    return (
         <div>
             <TitleSmall>請寫下你的問題，最後只用一個問號結尾。</TitleSmall>
             <div>
                 <input type="text" id="inp"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                className="input"  
-                placeholder="請輸入問題" 
-                required
-                autoFocus />
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    className="input"  
+                    placeholder="請輸入問題" 
+                    required
+                    autoFocus />
             </div>
-                <Button onClick={goNext}>開始抽牌</Button>
+            <Button onClick={goNext}>開始抽牌</Button>
         </div>
     );
-}
-
+};
 
 // 底板樣式
 const PickTypeBackgroundSec = styled.div`
